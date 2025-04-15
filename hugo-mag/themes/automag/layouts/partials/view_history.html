@@ -1,0 +1,10 @@
+<div id="viewed_items" class="">
+</div>
+
+{{ $js1 := resources.Get "js/viewed_products.js" }}
+{{  range (slice $js1) }}
+    {{ with . | fingerprint }}
+      <script src="{{ .Permalink }}" integrity="{{- .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{ end }}
+{{ end }}
+

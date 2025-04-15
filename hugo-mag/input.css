@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+@import 'tailwindcss' layer(utilities);
+@source "./hugo-mag/themes/automag/layouts/*/*.html";
+
+@plugin "daisyui" {
+  themes: light;
+}
+
+@plugin "@tailwindcss/typography" 

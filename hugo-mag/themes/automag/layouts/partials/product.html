@@ -1,0 +1,32 @@
+<a href="{{ .RelPermalink }}" onclick="addToViewHistory({{ .RelPermalink }}, {{ .Params.vk_title }}, {{ index .Params.photos 0 }});">
+<div class="hover:outline hover:outline-base-content/50 hover:bg-base-200 h-full p-4 rounded-xl flex flex-col gap-4">
+	<div class="relative">
+	{{ partial "fav_btn.html" . }}
+		<div class="carousel rounded-box w-full h-[35vh] sm:h-[50vh]">
+		{{ range .Params.photos }}
+			<div class="carousel-item w-full">
+				<img loading="lazy" alt="{{ $.Params.vk_title }}" src="/items_photos/{{ . }}" class="w-full object-cover">
+			</div>
+		{{ end }}
+		</div>
+		{{ $tag_page := $.Site.GetPage (printf "/tags/%s" (index .Params.tags 0)) }}
+		{{ if $tag_page }}
+		<a class="tag badge badge-secondary badge-sm hover:badge-warning absolute bottom-4 left-2 text-sm link link-hover" href="{{ $tag_page.RelPermalink }}">{{ $tag_page.Params.title | truncate 10}}</a>
+		{{ end }}
+		<div class="absolute bottom-10 left-0 w-full">
+			<div class="w-full flex gap-1 justify-center">
+			{{ range .Params.photos }}
+				<div class="h-[6px] w-[6px] bg-primary-content rounded-full shadow-xl"></div>
+			{{ end }}
+			</div>
+		</div>
+	</div>
+	<h2 class="text-2xl">{{ .Params.vk_title | truncate 25}}</h2>
+	<div class="flex gap-2 items-center">
+	<h4 class="badge badge-xl badge-primary font-black whitespace-nowrap">{{ .Params.price }}</h4>
+	{{ if .Params.old_price }}
+	<h4 class="font-light line-through whitespace-nowrap">{{ .Params.old_price }}</h4>
+	{{ end }}
+	</div>
+</div>
+</a>

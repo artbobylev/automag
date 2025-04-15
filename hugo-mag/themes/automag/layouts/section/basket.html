@@ -1,0 +1,68 @@
+{{ define "my_scripts" }}
+<script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+
+{{ $js1 := resources.Get "js/tg_basket.js" }}
+{{  range (slice $js1)  }}
+    {{ with . | fingerprint }}
+      <script src="{{ .Permalink }}" integrity="{{- .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{ end }}
+{{ end }}
+
+<style type="text/css">
+
+	div.simpleCart_items {
+	}
+	div.simpleCart_items > div {
+		width: 80%;
+		margin-right:auto;
+		margin-left:auto;
+	}
+	.simpleCart_items .headerRow div {
+		display: none;
+	}
+	.simpleCart_items .headerRow div, .simpleCart_items .itemRow div {
+		float:left;
+	}
+	.simpleCart_items .itemRow {
+		width:100%;
+		display: grid;
+		padding-bottom: 2rem; 
+		padding-top: 1rem; 
+		margin-left:auto;
+		margin-right:auto;
+		@media (max-width: 640px) {
+			grid-template-columns: auto;
+		}
+	}
+</style>
+{{ end }}
+{{ define "main" }}
+
+<div id="empty_basket" class="w-full flex flex-wrap items-center align-center justify-center gap-2 mt-[30vh]">
+	<p class="w-full text-center text-4xl mb-8">Корзина пуста</p>
+	<a href="/" alt="Главная" class="btn btn-secondary">На главную</a>
+	<a href="/items" alt="Каталог" class="btn btn-primary">В каталог</a>
+</div>
+
+<div id="basket_content" class="min-h-[60vh]">
+	<div class="w-full text-center p-4 rounded-xl mt-8">
+	<h1 class="text-4xl">Моя корзина</h1>
+	</div>
+
+	<div class="simpleCart_items"></div>
+
+	<div class="my-8 w-full flex justify-center">
+		<div id="checkout_btn" href="" class="cursor-pointer w-80 font-medium bg-success hover:bg-accent text-white text-lg rounded-2xl px-8 text-center py-4">Оформить заказ</div>
+	</div>
+
+
+	<div id="bot_link" class="" hidden>
+		Перейдите в бот <a target="_blank" class="text-error font-bold" href="{{ $.Site.Params.bot_url }}">{{ $.Site.Title }}</a>
+	</div>
+
+	<p class='text-center max-w-[300px] mx-auto text-base-content/50'>
+	Нажмите «Оформить заказ», чтобы отправить состав корзины в бот. 
+	</p>
+</div>
+
+{{ end }}

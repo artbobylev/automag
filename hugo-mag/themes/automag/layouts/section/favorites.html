@@ -1,0 +1,21 @@
+{{ define "main" }}
+
+<div id="fav_items" class="">
+</div>
+
+<div id="empty" class="w-full flex flex-wrap justify-center gap-2 mt-[25vh] mb-[40vh]">
+	<p class="w-full text-center text-4xl mb-4">В избранном пусто</p>
+	<a href="/" alt="Главная" class="btn btn-secondary">На главную</a>
+	<a href="/items" alt="Каталог" class="btn btn-primary">В каталог</a>
+</div>
+
+{{ $js1 := resources.Get "js/fav_products.js" }}
+{{  range (slice $js1) }}
+    {{ with . | fingerprint }}
+      <script src="{{ .Permalink }}" integrity="{{- .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{ end }}
+{{ end }}
+
+{{ partial "view_history.html" . }}
+
+{{ end }}

@@ -1,0 +1,7 @@
+<div class="w-full sm:w-auto flex gap-2 min-w-[300px]">
+<label for="search_prints" class="relative w-full">
+	<input oninput="searchProduct(this.value);" type="text" id="search_prints" class="w-full focus:outline-none focus:border-primary font-light italic text-md peer border border-secondary rounded-xl pl-4 pr-8 py-[6px]">
+	<div id="no_search" class="absolute top-2 right-2 peer-*:hidden">🔍</div>
+	<button hidden id="clear_search" onclick="clearSearch();" class="absolute top-2 right-4">&#10005;</button>
+</label>
+</div>

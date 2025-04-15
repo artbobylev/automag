@@ -1,0 +1,115 @@
+{{ define "my_scripts" }}
+
+{{ $js1 := resources.Get "js/checkIfTg_onmain.js" }}
+{{  range (slice $js1)  }}
+    {{ with . | fingerprint }}
+      <script src="{{ .Permalink }}" integrity="{{- .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{ end }}
+{{ end }}
+
+{{ end }}
+{{ define "main" }}
+
+<a alt="Каталог" href="/items" class="">
+	<div class="relative rounded-lg shadow my-4 bg-[url('/banner.jpg')] w-full h-[25vh] sm:h-[50vh] bg-cover bg-center bg-no-repeat"> 
+{{ if $.Site.Params.title_onmain }} 
+                <h1 class="z-[900] absolute bottom-8 left-8 text-4xl sm:text-8xl px-2 text-white">{{ $.Site.Title }}</h1>
+		<div class="z-[200] rounded-xl absolute bottom-0 left-0 bg-gradient-to-t from-black to-transparent w-full h-[150px]"></div>
+{{ end }}
+</div>
+</a>
+
+<a class="float-right mt-8 sm:hidden btn btn-secondary" alt="О нас" href="/info">О нас</a>
+<h5 class="mt-8 text-3xl font-bold max-w-[50%]">{{ or $.Site.Params.short_desc ( printf "%s | %s" $.Site.Title $.Site.Params.main_title ) }}</h5>
+
+
+
+<div class="w-full overflow-x-scroll">
+<div class="mt-0 mb-4 carousel carousel-center rounded-box space-x-4 py-4 items-top">
+{{ range first 10 (shuffle ($.Site.GetPage "/items/").Pages) }}
+<div class="carousel-item max-w-[55vw] sm:max-w-[40vw] md:max-w-[35vw] lg:max-w-[25vw]">
+	{{ partial "product.html" . }}
+</div>
+{{ end }}
+</div>
+</div>
+
+{{ $photo_tags := (($.Site.GetPage "/tags/").Pages | len) }}
+{{ $items := (($.Site.GetPage "/items/").Pages | len) }}
+
+{{ if ge $photo_tags 4 }}
+<div class="my-8 w-full grid grid-cols-2 gap-4 md:grid md:grid-cols-4">
+{{ $my_index := 0 }}
+{{ range ($.Site.GetPage "/tags/").Pages }}
+	{{ if .Params.photo }}
+	{{ if le $my_index 3}}
+                <a class="" href="{{ .RelPermalink }}" alt="{{ .Params.title }}"><img alt="{{ .Params.title }}" src="/tags_photos/{{ .Params.photo }}" class="rounded-xl object-cover h-32 w-full"></a>
+		{{ $my_index = add $my_index 1 }}
+	{{ end }}
+	{{ end }}
+{{ end }}
+</div>
+
+<nav class="w-full overflow-x-scroll pb-4">
+<div class="carousel w-full gap-2">
+{{ range ($.Site.GetPage "/tags/").Pages }}
+	<div class="carousel-item border border-secondary rounded-full px-2 hover:bg-secondary hover:text-secondary-content">
+                <a alt="{{ .Params.title }}" href="{{ .RelPermalink }}" class="px-2">{{ .Params.title }}</a>
+	</div>
+{{ end }}
+</div>
+</nav>
+{{ else if $photo_tags }}
+<nav class="mt-4">
+<div class="w-full flex flex-wrap gap-2 sm:flex sm:flex-nowrap">
+{{ range ($.Site.GetPage "/tags/").Pages }}
+	<div class="relative">
+                <a class="" href="{{ .RelPermalink }}" alt="{{ .Params.title }}"><img alt="{{ .Params.title }}" src="/tags_photos/{{ .Params.photo }}" class="rounded-xl object-cover h-32 w-full rounded-xl"></a>
+                <a alt="{{ .Params.title }}" href="{{ .RelPermalink }}" class="z-[100] absolute bottom-2 left-2 text-2xl px-2 text-white hover:text-warning">{{ .Params.title | truncate 10 }}</a>
+		<div class="z-[0] rounded-xl absolute bottom-0 left-0 bg-gradient-to-t from-black to-transparent w-full h-[100px]"></div>
+	</div>
+{{ end }}
+</div>
+</nav>
+{{ end }}
+
+{{ if ge $items 10 }}
+<div class="mt-8 w-full overflow-x-scroll">
+<div class="carousel carousel-center rounded-box space-x-4 py-4">
+{{ range first 10 (shuffle ($.Site.GetPage "/items/").Pages) }}
+<div class="carousel-item max-w-[55vw] sm:max-w-[40vw] md:max-w-[35vw] lg:max-w-[25vw]">
+	{{ partial "product.html" . }}
+</div>
+{{ end }}
+</div>
+</div>
+{{ end }}
+
+{{ if ge $photo_tags 8 }}
+<div class="my-8 w-full grid grid-cols-2 gap-4 md:flex md:flex">
+{{ $new_index := 0 }}
+{{ range ($.Site.GetPage "/tags/").Pages }}
+	{{ if .Params.photo }}
+	{{ if and (gt $new_index 3) (le $new_index 7)}} 
+                <a class="" href="{{ .RelPermalink }}" alt="{{ .Params.title }}">
+			<img alt="{{ .Params.title }}" src="/tags_photos/{{ .Params.photo }}" class="rounded-xl object-cover h-32 w-full">
+			<h4 class="mt-2">{{ .Params.title }}</h4>
+		</a>
+	{{ end }}
+	{{ $new_index = add $new_index 1 }}
+	{{ end }}
+{{ end }}
+</div>
+
+<div class="mt-8 w-full overflow-x-scroll">
+<div class="carousel carousel-center rounded-box space-x-4 py-4">
+{{ range first 10 (shuffle ($.Site.GetPage "/items/").Pages) }}
+<div class="carousel-item max-w-[55vw] sm:max-w-[40vw] md:max-w-[35vw] lg:max-w-[25vw]">
+	{{ partial "product.html" . }}
+</div>
+{{ end }}
+</div>
+</div>
+{{ end }}
+
+{{ end }}

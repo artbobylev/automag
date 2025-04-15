@@ -1,0 +1,13 @@
+{{ $js1 := resources.Get "js/addToViewHistory.js" }}
+{{ $js2 := resources.Get "js/addToFavs.js" }}
+
+{{ $js3 := resources.Get "js/jquery-3.7.1.min.js" }}
+{{ $js4 := resources.Get "js/simpleCart.min.js" }}
+
+{{ $js5 := resources.Get "js/tg_header.js" }}
+
+{{  range (slice $js1 $js2 $js3 $js4 $js5) }}
+    {{ with . | fingerprint }}
+      <script src="{{ .Permalink }}" integrity="{{- .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{ end }}
+{{ end }}

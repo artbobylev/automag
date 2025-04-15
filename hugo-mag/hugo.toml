@@ -1,0 +1,9 @@
+baseURL = ""
+languageCode = 'ru'
+title = ""
+theme = 'automag'
+[params]
+	theme_name = 'light'
+	main_title = ''
+	short_desc = ""
+	vk_link = ""

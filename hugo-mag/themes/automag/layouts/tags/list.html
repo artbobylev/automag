@@ -1,0 +1,30 @@
+{{ define "main" }}
+
+{{ partial "tags_div.html" . }}
+
+<div class="mt-8 mb-4 flex flex-wrap justify-between items-center align-center gap-4">
+<h1 class="mt-8 mb-4 text-4xl font-bold">{{ .Title }}</h1>
+{{ partial "search.html" }}
+</div>
+<div id="search_text"></div>
+
+
+<div id="product_div" class="mt-8 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8">
+	{{ range ($.Site.GetPage "/items").Sections }}
+	{{ if in .Params.tags $.Params.id }}
+		<div class="item">
+		{{ partial "product.html" . }}
+		</div>
+	{{ end }}
+	{{ end }}
+</div>
+
+
+{{ $js1 := resources.Get "js/search.js" }}
+{{  range (slice $js1) }}
+    {{ with . | fingerprint }}
+      <script src="{{ .Permalink }}" integrity="{{- .Data.Integrity }}" crossorigin="anonymous"></script>
+    {{ end }}
+{{ end }}
+
+{{ end }}

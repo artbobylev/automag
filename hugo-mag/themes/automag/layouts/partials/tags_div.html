@@ -1,0 +1,29 @@
+{{ $pages := ($.Site.GetPage "/tags/").Pages }}
+{{ if $pages }}
+<nav class="mt-4 w-full overflow-x-scroll pb-4">
+<div class="carousel gap-2 w-full">
+{{ range ($.Site.GetPage "/tags/").Pages }}
+	{{ if .Params.photo }}
+                <a class="carousel-item" href="{{ .RelPermalink }}" alt="{{ .Params.title }}"><img alt="{{ .Params.title }}" src="/tags_photos/{{ .Params.photo }}" class="rounded-xl object-cover w-40 h-32 "></a>
+	{{ else }}
+	{{ end }}
+{{ end }}
+</div>
+</nav>
+
+<nav class="w-full overflow-x-scroll pb-4">
+<div class="carousel gap-2">
+{{ range ($.Site.GetPage "/tags/").Pages }}
+        {{ if eq $.Params.id .Params.id }}
+		<div class="carousel-item border border-secondary rounded-full bg-primary text-primary-content px-2">
+			<a alt="{{ .Params.title }}" href="{{ .RelPermalink }}" class="px-2">{{ .Params.title }}</a>
+		</div>
+        {{ else }}
+	<div class="carousel-item border border-secondary rounded-full px-2 hover:bg-secondary hover:text-secondary-content">
+                <a alt="{{ .Params.title }}" href="{{ .RelPermalink }}" class="px-2">{{ .Params.title }}</a>
+	</div>
+        {{ end }}
+{{ end }}
+</div>
+</nav>
+{{ end }}
